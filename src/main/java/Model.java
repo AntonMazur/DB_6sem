@@ -19,9 +19,9 @@ public class Model {
 
     private Model() {}
 
-    public static XSSFRow getRow() throws IOException{
+    public static XSSFRow getRow(int rowNum) throws IOException{
         XSSFSheet myExcelSheet = dbTable.getSheet("Публикации");
-        XSSFRow row = myExcelSheet.getRow(16);
+        XSSFRow row = myExcelSheet.getRow(rowNum);
         return row;
     }
 
@@ -31,6 +31,10 @@ public class Model {
         }catch (IOException ex){
             throw new RuntimeException("Database table file not found");
         }
+    }
+
+    public static int getRowCount(){
+        return dbTable.getSheet("Публикации").getPhysicalNumberOfRows();
     }
 
 }

@@ -6,10 +6,11 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
-        <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost:9001</property>
-        <property name="hibernate.connection.username">Best</property>
-        <property name="hibernate.connection.password">Mazur</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:file:./database/library</property>
+        <property name="hibernate.connection.username">sathembite</property>
+        <property name="hibernate.connection.password">best</property>
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
+        <mapping class="entities.Book"/>
     </session-factory>
 </hibernate-configuration>
