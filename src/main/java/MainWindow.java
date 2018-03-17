@@ -37,7 +37,7 @@ public class MainWindow extends Application {
         Book book = new Book();
         book.setAuthors("slkfj");
         book.setEdition("lskfj");
-        book.setEditionYear(111);
+        book.setYear("111");
         book.setName("slfkj");
         session.persist(book);
         t.commit();
