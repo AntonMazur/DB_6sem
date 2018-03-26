@@ -9,7 +9,10 @@
 <AnchorPane id="AnchorPane" prefHeight="640.0" prefWidth="1080.0" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/2.2" fx:controller="Controller">
     <children>
-        <TableView fx:id="libTable" layoutX="144.0" layoutY="26.0" prefHeight="540.0" prefWidth="800.0">
+        <TableView fx:id="libTable"
+                   layoutX="144.0" layoutY="26.0"
+                   prefHeight="540.0" prefWidth="800.0"
+                   AnchorPane.leftAnchor="300" AnchorPane.rightAnchor="50" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="50">
             <columns>
                 <!-- Колонки таблицы -->
                 <TableColumn fx:id="year" prefWidth="80.0" text="Year"/>

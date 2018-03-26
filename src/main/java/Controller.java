@@ -47,12 +47,17 @@ public class Controller {
     }
 
     @FXML private void reloadDB(ActionEvent event) throws IOException{
-        year.setCellValueFactory(new PropertyValueFactory<>("year"));
-        authors.setCellValueFactory(new PropertyValueFactory<>("authors"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        edition.setCellValueFactory(new PropertyValueFactory<>("edition"));
-        otherData.setCellValueFactory(new PropertyValueFactory<>("otherData"));
-        tableData.add(Model.getBook(++field));
+        MainWindow.executeParallel(() -> {
+            year.setCellValueFactory(new PropertyValueFactory<>("year"));
+            authors.setCellValueFactory(new PropertyValueFactory<>("authors"));
+            name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            edition.setCellValueFactory(new PropertyValueFactory<>("edition"));
+            otherData.setCellValueFactory(new PropertyValueFactory<>("otherData"));
+            for (int i = 0; i < 20; i++) {
+                tableData.clear();
+                tableData.addAll(Model.getAllBooks());
+            }
+        });
         libTable.setItems(tableData);
     }
 

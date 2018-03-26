@@ -3,6 +3,7 @@ package entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import utilities.BookParam;
 
 import javax.persistence.*;
 
@@ -26,7 +27,14 @@ public class Book {
     @Column(name="otherData")
     private String otherData;
 
-//    public Book(int year, String name, String authors, String edition, String otherData){
-//        this()
-//    }
+    public boolean isParamContainsKey(BookParam param, String key){
+        switch(param) {
+            case YEAR: return year.contains(key);
+            case NAME: return name.contains(key);
+            case AUTHORS: return authors.contains(key);
+            case EDITION: return edition.contains(key);
+            case OTHER_DATA: return otherData.contains(key);
+            default: throw new IllegalArgumentException();
+        }
+    }
 }
