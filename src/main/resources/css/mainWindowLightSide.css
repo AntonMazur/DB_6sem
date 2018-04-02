@@ -1,0 +1,33 @@
+.root{
+    -fx-background-image: url("/pictures/yodaMainThemeForLightSide.jpg");
+    -fx-background-size: 280, 600;
+    -fx-background-position: 30 400;
+    -fx-background-color: white;
+    -fx-background-repeat: no-repeat;
+}
+
+.table-view-column{
+    -fx-background-color: linear-gradient(#ffffff 0%, #A5EA99 30%,  #65A95A 100%);
+    -fx-border-color: #224422;
+    -fx-text-fill: black;
+}
+
+.label{
+    -fx-font-size: 20;
+}
+
+.standaloneLabel{
+    -fx-text-fill: #35EA47;
+    -fx-font-size: 48;
+    -fx-font-family: "Abyssinica SIL";
+}
+
+.button{
+    -fx-font-size: 20;
+    -fx-border-radius: 20;
+    -fx-background-color: linear-gradient(#ffffff 0%, #C7FBAA 100%);
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-radius: 20;
+}
+

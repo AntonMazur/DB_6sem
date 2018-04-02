@@ -1,4 +1,9 @@
+package mainWin;
+
+import controllers.MainWindowController;
 import entities.Book;
+import javafx.scene.control.TextArea;
+import model.Model;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Creator: Mazur Anton
@@ -24,12 +30,12 @@ public class MainWindow extends Application {
     private static SessionFactory sessionFactory;
     public static ExecutorService parallelTasksExecutor;
 
-    static{
+    static {
         parallelTasksExecutor = Executors.newFixedThreadPool(4);
     }
 
-    public static void executeParallel(Runnable runnable){
-        parallelTasksExecutor.execute(runnable);
+    public static Future executeParallel(Runnable runnable){
+        return parallelTasksExecutor.submit(runnable);
     }
 
     public static void main(String[] args) throws Exception {
@@ -40,8 +46,14 @@ public class MainWindow extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        TextArea textArea = new TextArea();
+        textArea.prefHeight(40);
+        textArea.prefWidth(30);
+        textArea.appendText("slkdfsdkfjskfnsknbskbnsodibnosidnbosidnboisdbn");
+        String res = textArea.getText().replaceAll("\n", System.getProperty("line.separator"));
+
         executeParallel(Model::init);
-        Controller.setMainStage(stage);
+        MainWindowController.setMainStage(stage);
         Configuration config = new Configuration().configure();
         sessionFactory = config.buildSessionFactory();
         Session session = sessionFactory.openSession();
@@ -49,7 +61,7 @@ public class MainWindow extends Application {
         Book book = new Book();
         book.setAuthors("slkfj");
         book.setEdition("lskfj");
-        book.setYear("111P");
+        book.setYear(56);
         book.setName("slfkj");
         session.persist(book);
         t.commit();
@@ -58,11 +70,14 @@ public class MainWindow extends Application {
                 .createCriteria(Book.class).list();
         list.forEach(System.out::print);
         session.close();
-        String fxmlFile = "/fxml/mainWindowUser.fxml";
+        String fxmlFile = "/fxml/mainWindow.fxml";
         FXMLLoader loader = new FXMLLoader();
         Parent root = loader.load(getClass().getResourceAsStream(fxmlFile));
-        stage.setTitle("Library(as user)");
-        stage.setScene(new Scene(root));
+        stage.setTitle("Library (as user)");
+        Scene primaryScene = new Scene(root);
+        primaryScene.getStylesheets().add
+              (getClass().getResource("/css/mainWindowLightSide.css").toExternalForm());
+        stage.setScene(primaryScene);
         stage.setMaximized(true);
         stage.show();
         return;

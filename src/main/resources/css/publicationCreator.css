@@ -1,0 +1,30 @@
+.root{
+    -fx-background-image: url("/pictures/dartVader.png");
+}
+
+.label{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.text-field{
+    -fx-font-size: 20;
+    -fx-background-color: grey;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+}
+
+.text-field:focused{
+    -fx-background-color: white;
+    -fx-background-color: black;
+}
+
+.button{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-border-radius: 20;
+    -fx-background-color: linear-gradient(#777777 0%, #ff4455 100%);
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-radius: 20;
+}

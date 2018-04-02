@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.PublicationMenuController"
+            prefHeight="500.0" prefWidth="810.0">
+
+    <TextArea fx:id="bookDescription"
+              layoutX="350" layoutY="20" prefWidth="450" prefHeight="420"
+              wrapText="true"/>
+    <Button fx:id="openPublication"
+            layoutX="20" layoutY="40" prefWidth="260" prefHeight="40"
+            text="Open publication"/>
+    <Button fx:id="deletePublication"
+            layoutX="20" layoutY="100" prefWidth="260" prefHeight="40"
+            text="Delete publication"/>
+    <Button fx:id="updatePublication"
+            layoutX="20" layoutY="160" prefWidth="260" prefHeight="40"
+            text="Update publication" onAction="#updatePublicationDescription"/>
+
+    <stylesheets>
+        <URL value="@/css/publicationMenuController.css" />
+    </stylesheets>
+</AnchorPane>

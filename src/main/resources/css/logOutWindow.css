@@ -1,0 +1,26 @@
+.button{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-border-radius: 20;
+    -fx-background-color: black;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-radius: 20;
+}
+
+.button:pressed{
+    -fx-background-color: #444444;
+}
+
+.button:focused{
+    -fx-border-color: red;
+}
+
+.button:hover{
+    -fx-background-color: radial-gradient(center 50% 50%, radius 60% , black 60% , red 100%);
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20;
+}

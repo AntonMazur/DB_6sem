@@ -1,0 +1,35 @@
+.root{
+    -fx-background-image: url("/pictures/Star_Wars_The_Sith_Lord-_Darth_Vader_Poster_In_India_by_Silly_Punter.jpg");
+    -fx-background-size: 280, 550;
+    -fx-background-position: 30 350;
+    -fx-background-color: #000000;
+    -fx-background-repeat: no-repeat;
+}
+
+.table-view-column{
+    -fx-background-color: linear-gradient(#333333 0%, #666666 30%,  #ff6666 100%);
+    -fx-border-color: #222222;
+    -fx-text-fill: #ffffff;
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20;
+}
+
+.standaloneLabel{
+    -fx-text-fill: #ff6677;
+    -fx-font-size: 48;
+    -fx-font-family: "Abyssinica SIL";
+}
+
+.button{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-border-radius: 20;
+    -fx-background-color: linear-gradient(#777777 0%, #ff4455 100%);
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-radius: 20;
+}
+

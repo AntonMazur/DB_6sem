@@ -1,3 +1,6 @@
+package model;
+
+import mainWin.MainWindow;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -8,11 +11,11 @@ import java.io.IOException;
 import entities.Book;
 
 public class Model {
-    private static String pathToDBTable = "src/main/resources/dbtables/allPublications.xlsx";
+    private static String pathToDBTable = "src/main/resources/businesslogicdata/allPublications.xlsx";
     private static XSSFWorkbook dbTable;
     private static XSSFSheet myExcelSheet;
     private static String publicationsSheetName = "Публикации";
-    private static String actualYear;
+    private static int actualYear;
 
     public static void init(){
         reloadDB();
@@ -48,22 +51,22 @@ public class Model {
 
     public static Book getBook(int bookNum) {
         XSSFRow row = getRow(bookNum);
-        String yearCell = row.getCell(0).toString();
-        if (!yearCell.isEmpty()){
+        int yearCell = ((Double) row.getCell(0).getNumericCellValue()).intValue();
+        if (yearCell == 0){
             actualYear = yearCell;
         }
-        return new Book(0,
+        return new Book(
                 actualYear,
                 getCell(row, 1),
-                getCell(row, 1),
-                getCell(row, 1),
-                getCell(row, 1));
+                getCell(row, 2),
+                getCell(row, 3),
+                getCell(row, 4));
     }
 
     public static Book[] getAllBooks(){
-        Book[] books = new Book[getRowCount()];
-        for (int i = 0; i < getRowCount(); i++) {
-            books[i] = getBook(i);
+        Book[] books = new Book[getRowCount() - 1];
+        for (int i = 1; i < getRowCount(); i++) {
+            books[i - 1] = getBook(i);
         }
         return books;
     }
