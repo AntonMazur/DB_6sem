@@ -5,5 +5,5 @@ public enum BookParam {
     AUTHORS,
     NAME,
     EDITION,
-    OTHER_DATA
+    OUTPUT_DATA
 }

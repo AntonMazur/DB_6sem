@@ -18,3 +18,13 @@
     -fx-background-color: #ff4455;
 }
 
+.label{
+    -fx-font-size: 20;
+    -fx-text-fill: linear-gradient(white 0%, #ff4455 100%);
+}
+
+.text-field{
+    -fx-font-size: 20;
+    -fx-min-width: 400;
+}
+

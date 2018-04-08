@@ -1,0 +1,41 @@
+.root{
+    -fx-background-image: url("/pictures/NewYodaForm.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.label{
+    -fx-font-size: 20;
+    -fx-text-fill: linear-gradient(#96FCA0, #ffffff);
+}
+
+.text-field{
+    -fx-font-size: 20;
+    -fx-background-color: linear-gradient(#96FCA0, #ffffff);
+}
+
+.text-field:focused{
+    -fx-background-color: white;
+}
+
+.button{
+    -fx-font-size: 20;
+    -fx-border-radius: 20;
+    -fx-background-color: linear-gradient(#ffffff 0%, #C0FBA0 100%);
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-radius: 20;
+}
+
+
+
+.button:hover{
+    -fx-font-size: 22;
+    -fx-background-color: #96FCA0;
+}
+
+.check-box{
+    -fx-font-size: 20;
+    -fx-text-fill: linear-gradient(#96FCA0, #ffffff);
+}
+

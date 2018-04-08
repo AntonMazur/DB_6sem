@@ -29,11 +29,13 @@
             </columnResizePolicy>
         </TableView>
         <Label fx:id="roleLabel" styleClass="standaloneLabel" layoutX="600" layoutY="20"/>
-        <Button fx:id="reloadDB" layoutX="50.0" layoutY="26.0" prefHeight="40.0" prefWidth="230.0"
+        <Button fx:id="reloadDB" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="240.0"
                 text="Reload data" onAction="#reloadDB"/>
-        <Button fx:id="logIn" layoutX="50.0" layoutY="120.0" prefHeight="40.0" prefWidth="230.0" mnemonicParsing="false"
+        <Button fx:id="logIn" layoutX="50.0" layoutY="105.0" prefHeight="40.0" prefWidth="240.0" mnemonicParsing="false"
                 text="LogIn" onAction="#logIn"/>
-        <Button fx:id="addPublication" layoutX="50" layoutY="214" prefHeight="40.0" prefWidth="230.0"
+        <Button fx:id="findBooks" layoutX="50" layoutY="190" prefHeight="40.0" prefWidth="240.0"
+                text="Find publication(s)" onAction="#findBooks" visible="true"/>
+        <Button fx:id="addPublication" layoutX="50" layoutY="275" prefHeight="40.0" prefWidth="240.0"
                 text="Add publication" onAction="#addPublication" visible="false"/>
     </children>
 </AnchorPane>

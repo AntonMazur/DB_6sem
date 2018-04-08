@@ -1,0 +1,27 @@
+.root{
+    -fx-background-image: url("/pictures/star-wars-balance-of-the-force.jpg");
+    -fx-background-size: cover;
+}
+
+.button{
+    -fx-font-size: 20;
+    -fx-border-radius: 20;
+    -fx-background-color: linear-gradient(#80FB80 0%, white 100%);
+    -fx-border-color: linear-gradient(#80FB80 0%, white 100%);
+    -fx-background-radius: 20;
+}
+
+.button:hover{
+    -fx-font-size: 22;
+    -fx-border-color:  linear-gradient(#ff8080 0%, white 100%);
+    -fx-background-color: linear-gradient(#ff8080 0%, white 100%);
+}
+
+.label{
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+
+.text-field{
+    -fx-font-size: 20
+}

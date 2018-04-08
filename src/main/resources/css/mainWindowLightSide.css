@@ -25,9 +25,14 @@
 .button{
     -fx-font-size: 20;
     -fx-border-radius: 20;
-    -fx-background-color: linear-gradient(#ffffff 0%, #C7FBAA 100%);
+    -fx-background-color: linear-gradient(#ffffff 0%, #C0FBA0 100%);
     -fx-border-color: black;
     -fx-border-width: 2;
     -fx-background-radius: 20;
+}
+
+.button:hover{
+    -fx-font-size: 22;
+    -fx-background-color: #96FCA0;
 }
 

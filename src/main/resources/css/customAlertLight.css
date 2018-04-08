@@ -1,0 +1,11 @@
+.root{
+    -fx-background-image: url("/pictures/djedayTeam.png");
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 28;
+    -fx-alignment: center;
+}
+
+

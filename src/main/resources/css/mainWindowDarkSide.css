@@ -33,3 +33,8 @@
     -fx-background-radius: 20;
 }
 
+.button:hover{
+    -fx-font-size: 22;
+    -fx-background-color: #ff4455;
+}
+

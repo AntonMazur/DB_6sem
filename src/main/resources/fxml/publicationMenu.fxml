@@ -10,17 +10,36 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.PublicationMenuController"
-            prefHeight="500.0" prefWidth="810.0">
+            prefHeight="570" prefWidth="810">
 
-    <TextArea fx:id="bookDescription"
-              layoutX="350" layoutY="20" prefWidth="450" prefHeight="420"
-              wrapText="true"/>
+    <Label layoutX="350" layoutY="20" text="Year"/>
+    <TextField fx:id="year" layoutX="350" layoutY="50"/>
+
+    <Label layoutX="350" layoutY="90" text="Authors"/>
+    <TextField fx:id="authors" layoutX="350" layoutY="120"/>
+
+    <Label layoutX="350" layoutY="160" text="Name"/>
+    <TextField fx:id="name" layoutX="350" layoutY="190"/>
+
+    <Label layoutX="350" layoutY="230" text="Edition"/>
+    <TextField fx:id="edition" layoutX="350" layoutY="260"/>
+
+    <Label layoutX="350" layoutY="300" text="Output Data"/>
+    <TextField fx:id="outputData" layoutX="350" layoutY="330"/>
+
+    <Label layoutX="350" layoutY="370" text="DOI|SCOPULUS|WOS"/>
+    <TextField fx:id="indexes" layoutX="350" layoutY="400"/>
+
+    <Label layoutX="350" layoutY="440" text="Link on file"/>
+    <TextField fx:id="fileLink" layoutX="350" layoutY="470"/>
+
+
     <Button fx:id="openPublication"
             layoutX="20" layoutY="40" prefWidth="260" prefHeight="40"
-            text="Open publication"/>
+            text="Open publication" onAction="#openPublication"/>
     <Button fx:id="deletePublication"
             layoutX="20" layoutY="100" prefWidth="260" prefHeight="40"
-            text="Delete publication"/>
+            text="Delete publication" onAction="#deletePublication"/>
     <Button fx:id="updatePublication"
             layoutX="20" layoutY="160" prefWidth="260" prefHeight="40"
             text="Update publication" onAction="#updatePublicationDescription"/>

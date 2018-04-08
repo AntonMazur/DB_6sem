@@ -9,6 +9,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import entities.Book;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 public class Model {
     private static String pathToDBTable = "src/main/resources/businesslogicdata/allPublications.xlsx";
@@ -16,7 +19,49 @@ public class Model {
     private static XSSFSheet myExcelSheet;
     private static String publicationsSheetName = "Публикации";
     private static int actualYear;
+    private static SessionFactory sessionFactory;
+    private static Session currentSession;
+    private static Transaction currentTransation;
 
+    public static void setSessionFactory(SessionFactory sessionFactory){
+        Model.sessionFactory = sessionFactory;
+    }
+
+    public static void openSessionStartTransation() {
+        currentSession = sessionFactory.openSession();
+        currentTransation = currentSession.beginTransaction();
+    }
+
+    public static void commitTransationCloseSession() {
+        currentTransation.commit();
+        currentSession.close();
+    }
+
+    public static void updateBook(Book book){
+        openSessionStartTransation();
+        currentSession.update(book);
+        commitTransationCloseSession();
+    }
+
+    public static void insertBook(Book book){
+        openSessionStartTransation();
+        currentSession.persist(book);
+        commitTransationCloseSession();
+    }
+
+    public static void insertBatchOfBooks(Book... books){
+        openSessionStartTransation();
+        for (Book book: books) {
+            currentSession.save(book);
+        }
+        commitTransationCloseSession();
+    }
+
+    public static void deleteBook(Book book) {
+        openSessionStartTransation();
+        currentSession.delete(book);
+        commitTransationCloseSession();
+    }
     public static void init(){
         reloadDB();
     }
@@ -52,7 +97,7 @@ public class Model {
     public static Book getBook(int bookNum) {
         XSSFRow row = getRow(bookNum);
         int yearCell = ((Double) row.getCell(0).getNumericCellValue()).intValue();
-        if (yearCell == 0){
+        if (yearCell != 0){
             actualYear = yearCell;
         }
         return new Book(
@@ -60,7 +105,12 @@ public class Model {
                 getCell(row, 1),
                 getCell(row, 2),
                 getCell(row, 3),
-                getCell(row, 4));
+                getCell(row, 4),
+                getCell(row, 9),
+                getCell(row, 8),
+                getCell(row, 7),
+                getCell(row, 10));
+
     }
 
     public static Book[] getAllBooks(){
@@ -68,6 +118,7 @@ public class Model {
         for (int i = 1; i < getRowCount(); i++) {
             books[i - 1] = getBook(i);
         }
+        insertBatchOfBooks(books);
         return books;
     }
 

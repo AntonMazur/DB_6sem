@@ -3,11 +3,14 @@ package controllers;
 import entities.Book;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 
@@ -27,7 +30,9 @@ public class PublicationCreatorController implements Resultable{
     @FXML
     private void createPublication(ActionEvent event){
         if (!isInteger(year.getText())){
-            new Alert(Alert.AlertType.ERROR, "'Year' must be integer!", ButtonType.OK).showAndWait();
+            CustomAlertController.setAlertParams("'Year' must be integer!");
+            openWindow("customAlert.fxml", "/css/customAlertDark.css", "Error", false);
+
             return;
         }
 
@@ -41,11 +46,11 @@ public class PublicationCreatorController implements Resultable{
         book.setName(name.getText())
                 .setEdition(edition.getText())
                 .setAuthors(authors.getText())
-                .setOtherData(outputData.getText())
+                .setOutputData(outputData.getText())
                 .setDOI(DOI.getText())
                 .setWOS(WOS.getText())
                 .setSCOPULUS(SCOPULUS.getText())
-                .setFileLink(isEmpty(fileLink) ? null : fileLink.getText())
+                .setFileLink(isEmpty(fileLink) ? "" : fileLink.getText())
                 .updateBookDescription();
         close();
     }
@@ -69,5 +74,24 @@ public class PublicationCreatorController implements Resultable{
     @Override
     public Object getResult() {
         return book;
+    }
+
+    private Object openWindow(String fxmlFileName, String cssFileName, String title, boolean isResizable){
+        FXMLLoader loader = new FXMLLoader();
+        Parent root;
+        try{
+            root = loader.load(getClass().getResourceAsStream("/fxml/" + fxmlFileName));
+        } catch(IOException ex){
+            throw new RuntimeException(ex);
+        }
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(year.getScene().getWindow());
+        stage.setResizable(isResizable);
+        stage.setTitle(title);
+        stage.setScene(new Scene(root));
+        stage.getScene().getStylesheets().add(getClass().getResource(cssFileName).toExternalForm());
+        stage.showAndWait();
+        return loader.getController();
     }
 }

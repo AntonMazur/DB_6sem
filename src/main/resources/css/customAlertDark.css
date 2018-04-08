@@ -1,0 +1,11 @@
+.root{
+    -fx-background-image: url("/pictures/dartVertical.jpg");
+}
+
+.label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 28;
+    -fx-alignment: center;
+}
+
+

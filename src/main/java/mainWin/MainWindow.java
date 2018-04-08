@@ -46,24 +46,19 @@ public class MainWindow extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        TextArea textArea = new TextArea();
-        textArea.prefHeight(40);
-        textArea.prefWidth(30);
-        textArea.appendText("slkdfsdkfjskfnsknbskbnsodibnosidnbosidnboisdbn");
-        String res = textArea.getText().replaceAll("\n", System.getProperty("line.separator"));
-
         executeParallel(Model::init);
         MainWindowController.setMainStage(stage);
         Configuration config = new Configuration().configure();
         sessionFactory = config.buildSessionFactory();
         Session session = sessionFactory.openSession();
+        Model.setSessionFactory(sessionFactory);
         Transaction t = session.beginTransaction();
         Book book = new Book();
         book.setAuthors("slkfj");
         book.setEdition("lskfj");
         book.setYear(56);
         book.setName("slfkj");
-        session.persist(book);
+            session.persist(book);
         t.commit();
         List<Book> list = new ArrayList<Book>();
         list = session

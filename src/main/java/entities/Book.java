@@ -1,10 +1,18 @@
 package entities;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 import lombok.experimental.Accessors;
+import mainWin.MainWindow;
+import org.hibernate.validator.constraints.Length;
 import utilities.BookParam;
+import utilities.Language;
 
 import javax.persistence.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
 
 @Entity(name = "library")
@@ -13,6 +21,7 @@ import javax.persistence.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private int dbId;
     private int id;
     @Column(name="year")
     private int year;
@@ -22,9 +31,9 @@ public class Book {
     private String name;
     @Column(name = "edition")
     private String edition;
-    @Column(name="otherData")
-    private String otherData;
-    @Column(name="bookDesctiption")
+    @Column(name="outputData")
+    private String outputData;
+    @Column(name="bookDesctiption", length = 500)
     private String bookDescription;
     @Column(name="WOS")
     private String WOS;
@@ -36,29 +45,25 @@ public class Book {
     private String fileLink;
 
     private static int idGenerator = 0;
+    private static String URL_FILE_PREFIX = "file://";
 
     {
         year = 0;
         authors = "";
         name = "";
         edition = "";
-        otherData = "";
+        outputData = "";
         bookDescription = "";
         WOS = "";
-        SCOPULUS = " ";
+        SCOPULUS = "";
         DOI = "";
-        fileLink = null;
+        fileLink = "";
     }
 
-    @java.beans.ConstructorProperties({"id", "year", "name", "authors", "edition", "otherData"})
-    public Book(int year, String authors, String name, String edition, String otherData) {
+    @java.beans.ConstructorProperties({"id", "year", "name", "authors", "edition", "outputData"})
+    public Book(int year, String authors, String name, String edition, String outputData, String DOI, String SCOPULUS, String WOS, String fileLink) {
         this.id = ++idGenerator;
-        this.year = year;
-        this.authors = authors;
-        this.name = name;
-        this.edition = edition;
-        this.otherData = otherData;
-        updateBookDescription();
+        updateBook(year, authors, name, edition, outputData, DOI, SCOPULUS, WOS, fileLink);
     }
 
     public Book() {}
@@ -69,7 +74,7 @@ public class Book {
             case NAME: return name.contains(key);
             case AUTHORS: return authors.contains(key);
             case EDITION: return edition.contains(key);
-            case OTHER_DATA: return otherData.contains(key);
+            case OUTPUT_DATA: return outputData.contains(key);
             default: throw new IllegalArgumentException();
         }
     }
@@ -81,20 +86,56 @@ public class Book {
     public void setNextId(){
         id = ++idGenerator;
     }
+    
+    public void updateBook(int year, String authors, String name, String edition, String outputData, String DOI, String SCOPULUS, String WOS, String fileLink){
+        this.year = year;
+        this.authors = authors;
+        this.name = name;
+        this.edition = edition;
+        this.outputData = outputData;
+        this.DOI = DOI == null ? "" : DOI;
+        this.SCOPULUS = SCOPULUS == null ? "" : SCOPULUS;
+        this.WOS = WOS == null ? "" : WOS;
+        this.fileLink = fileLink;
+        updateBookDescription();
+    }
 
     public void updateBookDescription(){
         bookDescription = authors + " " +
                           name + " " +
                           edition + " " +
                           year + " " +
-                          otherData + " " +
-                          getIdentifiersSummary();
+                          outputData;
     }
 
+    /*public Book setFileLink(String path){
+        fileLink = URL_FILE_PREFIX + path;
+        return this;
+    }*/
+
+    @SneakyThrows
+    public void openPublicationIfExist(){
+        if (!fileLink.equals("")){
+            URI fileURI = new File(fileLink).toURI();
+            MainWindow.executeParallel(() -> {
+                try{
+                    Desktop.getDesktop().browse(fileURI);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+        }
+    }
+
+    public Language getLanguage(){
+        return (int) name.charAt(0) > 1000 && (int) name.charAt(1) > 1000
+                ? Language.RUSSIAN
+                : Language.ENGLISH;
+    }
 
     private String getIdentifiersSummary(){
-        return (!DOI.equals("") ? "DOI " + DOI : "") +
-               (!SCOPULUS.equals("") ? " SCOPULUS" + SCOPULUS: "") +
+        return (!DOI.equals("") ? " DOI " + DOI : "") +
+               (!SCOPULUS.equals("") ? " SCOPULUS " + SCOPULUS: "") +
                (!WOS.equals("") ? " WOS " + WOS : "");
     }
 }

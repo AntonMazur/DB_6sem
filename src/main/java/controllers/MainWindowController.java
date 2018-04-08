@@ -23,9 +23,13 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import utilities.PublicationAction;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -42,12 +46,14 @@ public class MainWindowController {
     private static Stage openedStage;
     private static int field = 0;
     private static ObservableList<Book> tableData = FXCollections.observableArrayList();
+    private static List<Book> allBooks = new ArrayList<>();
     private static String FXML_ROOT_FOLDER = "/fxml/";
     private static final String ADMIN_CSS = "/css/mainWindowDarkSide.css";
     private static final String USER_CSS = "/css/mainWindowLightSide.css";
     @FXML private Label roleLabel;
     @FXML private Button logIn;
     @FXML private Button reloadDB;
+    @FXML private Button findBooks;
     @FXML private Button addPublication;
 
     @FXML private TableView<Book> libTable;
@@ -71,11 +77,12 @@ public class MainWindowController {
                     cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
                     text.wrappingWidthProperty().bind(description.widthProperty());
                     text.textProperty().bind(cell.itemProperty());
-                    return cell;
-                });
+                    return cell; });
         description.setCellValueFactory(new PropertyValueFactory<>("bookDescription"));
         tableData.clear();
-        tableData.addAll(Model.getAllBooks());
+        allBooks.clear();
+        allBooks.addAll(Arrays.asList(Model.getAllBooks()));
+        tableData.addAll(allBooks);
         libTable.setItems(tableData);
     }
 
@@ -83,7 +90,7 @@ public class MainWindowController {
     @FXML
     private void logIn(ActionEvent actionEvent) {
         if (!isLogIn){
-            Resultable logWindowController = (Resultable) openWindow("logInWindow.fxml", "Log in", Modality.WINDOW_MODAL, true);
+            Resultable logWindowController = (Resultable) openWindow("logInWindow.fxml", "Log in", Modality.WINDOW_MODAL, false);
             if ((boolean) logWindowController.getResult()) {
                 isLogIn = true;
                 logIn.setText("LogOut");
@@ -97,7 +104,7 @@ public class MainWindowController {
                 return;
             }
         } else {
-            if ((Boolean)((Resultable) openWindow("logOutWindow.fxml", "Confirmation", Modality.WINDOW_MODAL, false)).getResult()){
+            if ((Boolean)((Resultable) openWindow("logOutWindow.fxml", "Confirmation", Modality.WINDOW_MODAL, true)).getResult()){
                 logOut();
             }
             else{
@@ -106,6 +113,7 @@ public class MainWindowController {
         }
         mainStage.close();
         mainStage.show();
+        updateBookTable();
     }
 
     @FXML
@@ -114,8 +122,9 @@ public class MainWindowController {
                 "publicationCreator.fxml",
                 "Add new publication",
                 Modality.WINDOW_MODAL,
-                true)).getResult());
+                false)).getResult());
         if (addedBook != null){
+            Model.insertBook(addedBook);
             tableData.add(addedBook);
             libTable.refresh();
         }
@@ -149,7 +158,27 @@ public class MainWindowController {
         Parent root;
         try{
             root = loader.load(getClass().getResourceAsStream(FXML_ROOT_FOLDER + fxmlFileName));
-        } catch(IOException ex){
+        } catch(IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        Stage stage = new Stage();
+        if (modality != null) {
+            stage.initModality(modality);
+            stage.initOwner(mainStage);
+        }
+        stage.setResizable(isResizable);
+        stage.setTitle(title);
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+        return loader.getController();
+    }
+
+    private Object openWindow(String fxmlFileName, String cssFileName, String title, Modality modality, boolean isResizable){
+        FXMLLoader loader = new FXMLLoader();
+        Parent root;
+        try{
+            root = loader.load(getClass().getResourceAsStream(FXML_ROOT_FOLDER + fxmlFileName));
+        } catch(IOException ex) {
             throw new RuntimeException(ex);
         }
         Stage stage = new Stage();
@@ -160,6 +189,7 @@ public class MainWindowController {
         stage.setResizable(isResizable);
         stage.setTitle(title);
         stage.setScene(new Scene(root));
+        stage.getScene().getStylesheets().add(getClass().getResource(cssFileName).toExternalForm());
         stage.showAndWait();
         return loader.getController();
     }
@@ -171,6 +201,7 @@ public class MainWindowController {
         applyReflectionToUINode(logIn);
         applyReflectionToUINode(roleLabel);
         applyReflectionToUINode(addPublication);
+        applyReflectionToUINode(findBooks);
         addPublication.managedProperty().bind(addPublication.visibleProperty());
         roleLabel.setText("USER");
     }
@@ -178,9 +209,39 @@ public class MainWindowController {
     @FXML
     private void showPublicationMenu(MouseEvent event) {
         Book book = libTable.getSelectionModel().getSelectedItem();
-        PublicationMenuController.setBook(book);
-        openWindow("publicationMenu.fxml", book.getName(), Modality.WINDOW_MODAL, true);
-        libTable.refresh();
+        if (isLogIn) {
+            PublicationMenuController.setBook(book);
+            PublicationAction pubAction =(PublicationAction)((PublicationMenuController) openWindow("publicationMenu.fxml", book.getName(), Modality.WINDOW_MODAL, true)).getResult();
+            if (pubAction == PublicationAction.UPDATE) {
+                Model.updateBook(book);
+                updateBookTable();
+            }
+            if (pubAction == PublicationAction.DELETE) {
+                Model.deleteBook(book);
+                tableData.remove(book);
+                updateBookTable();
+            }
+        }
+        else {
+            book.openPublicationIfExist();
+        }
+    }
+
+    @FXML
+    private void findBooks(){
+        SearchWindowController.setInitialBooks(allBooks.stream());
+        Book[] result = (Book[]) ((Resultable) openWindow(
+                "searchWindow.fxml",
+                isLogIn ? "/css/searchWindowDark.css" : "/css/searchWindowLight.css",
+                "Search",
+                Modality.APPLICATION_MODAL,
+                false)).getResult();
+        if (result == null) {
+            return;
+        }
+        tableData.clear();
+        tableData.addAll(result);
+        updateBookTable();
     }
 
     private void updateBookTable(){
