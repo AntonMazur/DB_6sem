@@ -13,15 +13,15 @@
             xmlns="http://javafx.com/javafx/2.2" fx:controller="controllers.MainWindowController">
     <children>
         <TableView fx:id="libTable"
-                   AnchorPane.leftAnchor="350"
-                   AnchorPane.rightAnchor="50"
-                   AnchorPane.bottomAnchor="50"
+                   AnchorPane.leftAnchor="325"
+                   AnchorPane.rightAnchor="25"
+                   AnchorPane.bottomAnchor="25"
                    AnchorPane.topAnchor="160"
                    onMouseClicked="#showPublicationMenu">
             <columns>
                 <!-- Колонки таблицы -->
-                <TableColumn styleClass="table-view-column" fx:id="id" text="ID" minWidth="30" prefWidth="40"/>
-                <TableColumn styleClass="table-view-column" fx:id="description" text = "Description" minWidth="300" prefWidth="800"/>
+                <TableColumn styleClass="table-view-column" fx:id="id" text="Идентификатор" minWidth="30" prefWidth="40"/>
+                <TableColumn styleClass="table-view-column" fx:id="description" text = "Описание" minWidth="300" prefWidth="800"/>
             </columns>
 
             <columnResizePolicy>
@@ -29,14 +29,14 @@
             </columnResizePolicy>
         </TableView>
         <Label fx:id="roleLabel" styleClass="standaloneLabel" layoutX="600" layoutY="20"/>
-        <Button fx:id="reloadDB" layoutX="50.0" layoutY="20.0" prefHeight="40.0" prefWidth="240.0"
-                text="Reload data" onAction="#reloadDB"/>
-        <Button fx:id="logIn" layoutX="50.0" layoutY="105.0" prefHeight="40.0" prefWidth="240.0" mnemonicParsing="false"
-                text="LogIn" onAction="#logIn"/>
-        <Button fx:id="findBooks" layoutX="50" layoutY="190" prefHeight="40.0" prefWidth="240.0"
-                text="Find publication(s)" onAction="#findBooks" visible="true"/>
-        <Button fx:id="addPublication" layoutX="50" layoutY="275" prefHeight="40.0" prefWidth="240.0"
-                text="Add publication" onAction="#addPublication" visible="false"/>
+        <Button fx:id="reloadDB" layoutX="20.0" layoutY="20.0" prefHeight="40.0" prefWidth="290.0"
+                text="Перезагрузить данные" onAction="#reloadDB"/>
+        <Button fx:id="logIn" layoutX="20.0" layoutY="105.0" prefHeight="40.0" prefWidth="290.0" mnemonicParsing="false"
+                text="Авторизоваться" onAction="#logIn"/>
+        <Button fx:id="findBooks" layoutX="20" layoutY="190" prefHeight="40.0" prefWidth="290.0"
+                text="Найти публикацию(и)" onAction="#findBooks" visible="true"/>
+        <Button fx:id="addPublication" layoutX="20" layoutY="275" prefHeight="40.0" prefWidth="290.0"
+                text="Добавить публикацию" onAction="#addPublication" visible="false"/>
     </children>
 </AnchorPane>
 

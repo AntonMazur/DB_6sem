@@ -12,5 +12,6 @@
         <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <mapping class="entities.Book"/>
+        <mapping class="entities.Author"/>
     </session-factory>
 </hibernate-configuration>

@@ -13,9 +13,14 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
-@Entity(name = "library")
+@Entity
+@Table(name = "library")
 @Data
 @Accessors(chain = true)
 public class Book {
@@ -43,6 +48,14 @@ public class Book {
     private String DOI;
     @Column(name="fileLink")
     private String fileLink;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "library_authors",
+            joinColumns = { @JoinColumn(name = "dbId") },
+            inverseJoinColumns = { @JoinColumn(name = "id") }
+    )
+    private Collection<Author> authorSet = new ArrayList<Author>();
 
     private static int idGenerator = 0;
     private static String URL_FILE_PREFIX = "file://";
@@ -105,7 +118,8 @@ public class Book {
                           name + " " +
                           edition + " " +
                           year + " " +
-                          outputData;
+                          outputData + " " +
+                          getIdentifiersSummary();
     }
 
     /*public Book setFileLink(String path){
@@ -133,9 +147,20 @@ public class Book {
                 : Language.ENGLISH;
     }
 
+    public Collection<Author> getAuthorsSet() {
+        return authorSet;
+    }
+
+    public void addAuthor(Author author) {
+        authorSet.add(author);
+    }
+
     private String getIdentifiersSummary(){
-        return (!DOI.equals("") ? " DOI " + DOI : "") +
-               (!SCOPULUS.equals("") ? " SCOPULUS " + SCOPULUS: "") +
-               (!WOS.equals("") ? " WOS " + WOS : "");
+        if (DOI.equals("") & SCOPULUS.equals("") & WOS.equals("")){
+            return "";
+        }
+        return "(" + ((!DOI.equals("") ? "DOI: " + DOI + " ": "") +
+               (!SCOPULUS.equals("") ? "SCOPUS: " + SCOPULUS + " ": "") +
+               (!WOS.equals("") ? "WOS: " + WOS : "")) + ")";
     }
 }

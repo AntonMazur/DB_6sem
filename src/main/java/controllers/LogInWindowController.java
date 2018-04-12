@@ -27,7 +27,7 @@ public class LogInWindowController implements Resultable{
             ((Stage) pwField.getScene().getWindow()).close();
         }
         else {
-            CustomAlertController.setAlertParams("Incorrect password! Try again");
+            CustomAlertController.setAlertParams("Неправильный пароль! Попробуйсте ещё раз");
             openWindow("customAlert.fxml", "/css/customAlertLight.css", "Error", false);
             pwField.setBorder(
                     new Border(

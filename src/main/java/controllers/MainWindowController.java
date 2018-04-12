@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Reflection;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -26,6 +27,8 @@ import javafx.stage.Stage;
 import utilities.PublicationAction;
 
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,8 +46,6 @@ public class MainWindowController {
     private static String pw = "qwerty";
     private static boolean isLogIn;
     private static Stage mainStage;
-    private static Stage openedStage;
-    private static int field = 0;
     private static ObservableList<Book> tableData = FXCollections.observableArrayList();
     private static List<Book> allBooks = new ArrayList<>();
     private static String FXML_ROOT_FOLDER = "/fxml/";
@@ -93,9 +94,9 @@ public class MainWindowController {
             Resultable logWindowController = (Resultable) openWindow("logInWindow.fxml", "Log in", Modality.WINDOW_MODAL, false);
             if ((boolean) logWindowController.getResult()) {
                 isLogIn = true;
-                logIn.setText("LogOut");
-                mainStage.setTitle("Library (as administrator)");
-                roleLabel.setText("ADMINISTRATOR");
+                logIn.setText("Выйти");
+                mainStage.setTitle("Библиотека (режим администратора)");
+                roleLabel.setText("АДМИНИСТРАТОР");
                 ObservableList<String> styleSheets = mainStage.getScene().getStylesheets();
                 styleSheets.clear();
                 styleSheets.add(getClass().getResource(ADMIN_CSS).toExternalForm());
@@ -104,7 +105,7 @@ public class MainWindowController {
                 return;
             }
         } else {
-            if ((Boolean)((Resultable) openWindow("logOutWindow.fxml", "Confirmation", Modality.WINDOW_MODAL, true)).getResult()){
+            if ((Boolean)((Resultable) openWindow("logOutWindow.fxml", "Подтверждение", Modality.WINDOW_MODAL, true)).getResult()){
                 logOut();
             }
             else{
@@ -120,7 +121,7 @@ public class MainWindowController {
     private void addPublication(ActionEvent event){
         Book addedBook = ((Book)((PublicationCreatorController) openWindow(
                 "publicationCreator.fxml",
-                "Add new publication",
+                "Добавление публикации",
                 Modality.WINDOW_MODAL,
                 false)).getResult());
         if (addedBook != null){
@@ -131,16 +132,11 @@ public class MainWindowController {
 
     }
 
-    @FXML
-    private void mockMethod(){
-        new Alert(Alert.AlertType.ERROR, "Mazur Anton the best in the world").show();
-    }
-
     private void logOut() {
         isLogIn = false;
-        logIn.setText("LogIn");
-        mainStage.setTitle("Library (as user)");
-        roleLabel.setText("USER");
+        logIn.setText("Войти");
+        mainStage.setTitle("Бибилиотека (режим пользователя)");
+        roleLabel.setText("ПОЛЬЗОВАТЕЛЬ");
         ObservableList<String> styleSheets = mainStage.getScene().getStylesheets();
         styleSheets.clear();
         styleSheets.add(getClass().getResource(USER_CSS).toExternalForm());
@@ -203,28 +199,39 @@ public class MainWindowController {
         applyReflectionToUINode(addPublication);
         applyReflectionToUINode(findBooks);
         addPublication.managedProperty().bind(addPublication.visibleProperty());
-        roleLabel.setText("USER");
+        roleLabel.setText("ПОЛЬЗОВАТЕЛЬ");
     }
 
     @FXML
     private void showPublicationMenu(MouseEvent event) {
         Book book = libTable.getSelectionModel().getSelectedItem();
-        if (isLogIn) {
-            PublicationMenuController.setBook(book);
-            PublicationAction pubAction =(PublicationAction)((PublicationMenuController) openWindow("publicationMenu.fxml", book.getName(), Modality.WINDOW_MODAL, true)).getResult();
-            if (pubAction == PublicationAction.UPDATE) {
-                Model.updateBook(book);
-                updateBookTable();
+        if (event.getClickCount() == 2) {
+            if (isLogIn) {
+                PublicationMenuController.setBook(book);
+                PublicationAction pubAction =(PublicationAction)((PublicationMenuController) openWindow("publicationMenu.fxml", book.getName(), Modality.WINDOW_MODAL, true)).getResult();
+                if (pubAction == PublicationAction.UPDATE) {
+                    Model.updateBook(book);
+                    updateBookTable();
+                }
+                if (pubAction == PublicationAction.DELETE) {
+                    Model.deleteBook(book);
+                    tableData.remove(book);
+                    updateBookTable();
+                }
             }
-            if (pubAction == PublicationAction.DELETE) {
-                Model.deleteBook(book);
-                tableData.remove(book);
-                updateBookTable();
+            else {
+                book.openPublicationIfExist();
             }
         }
-        else {
-            book.openPublicationIfExist();
+        else{
+            Toolkit
+                    .getDefaultToolkit()
+                    .getSystemClipboard()
+                    .setContents(
+                            new StringSelection(book.getBookDescription()),
+                            null);
         }
+
     }
 
     @FXML
@@ -233,7 +240,7 @@ public class MainWindowController {
         Book[] result = (Book[]) ((Resultable) openWindow(
                 "searchWindow.fxml",
                 isLogIn ? "/css/searchWindowDark.css" : "/css/searchWindowLight.css",
-                "Search",
+                "Поиск",
                 Modality.APPLICATION_MODAL,
                 false)).getResult();
         if (result == null) {

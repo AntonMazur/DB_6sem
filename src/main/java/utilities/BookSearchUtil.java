@@ -16,7 +16,7 @@ public class BookSearchUtil {
 
     private BookSearchUtil() { }
 
-    public static Stream<Book> getBooksByParams(Stream<Book> books, Map<BookParam, List<String>> bookParams){
+    public static Stream<Book> getBooksByParams(Stream<Book> books, Map<BookParam, List<List<String>>> bookParams){
         return books
                 .filter(x ->
                         bookParams
@@ -25,10 +25,11 @@ public class BookSearchUtil {
                                 .allMatch(paramList -> paramList
                                         .getValue()
                                         .stream()
-                                        .anyMatch(param -> x
-                                                .isParamContainsKey(
-                                                        paramList.getKey(),
-                                                        param)
+                                        .anyMatch(param -> param
+                                                .stream()
+                                                .allMatch(p -> x
+                                                        .isParamContainsKey(paramList.getKey(), p)
+                                                )
                                         )
                                 )
                 );

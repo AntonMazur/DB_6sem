@@ -13,9 +13,9 @@
             fx:controller="controllers.LogOutWindow"
             prefHeight="260.0" prefWidth="550.0">
     <ImageView fx:id="background" fitWidth="550.0" fitHeight="260.0"/>
-    <Label layoutX="130" layoutY="30" text="Are you really want to log out?"/>
-    <Button fx:id="cancellogOut" layoutY="180" layoutX="100" prefWidth="100" text="No" onAction="#close"/>
-    <Button fx:id="logOut" layoutY="180" layoutX="400" prefWidth="100" text="Yes" onAction="#logOut"/>
+    <Label layoutX="130" layoutY="30" text="Вы уверены, что хотите выйти?"/>
+    <Button fx:id="cancellogOut" layoutY="180" layoutX="100" prefWidth="100" text="Нет" onAction="#close"/>
+    <Button fx:id="logOut" layoutY="180" layoutX="400" prefWidth="100" text="Да" onAction="#logOut"/>
 
     <stylesheets>
         <URL value="@/css/logOutWindow.css" />

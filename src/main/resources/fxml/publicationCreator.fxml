@@ -11,34 +11,34 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.PublicationCreatorController"
             prefHeight="600.0" prefWidth="720.0">
-    <Label layoutX="20" layoutY="20" text="Year"/>
+    <Label layoutX="20" layoutY="20" text="Год"/>
     <TextField fx:id="year" layoutX="240" layoutY="20"/>
 
-    <Label layoutX="20" layoutY="70" text="Authors"/>
+    <Label layoutX="20" layoutY="70" text="Авторы"/>
     <TextField fx:id="authors" layoutX="240" layoutY="70"/>
 
-    <Label layoutX="20" layoutY="120" text="Name"/>
+    <Label layoutX="20" layoutY="120" text="Название"/>
     <TextField fx:id="name" layoutX="240" layoutY="120"/>
 
-    <Label layoutX="20" layoutY="170" text="Edition"/>
+    <Label layoutX="20" layoutY="170" text="Издание"/>
     <TextField fx:id="edition" layoutX="240" layoutY="170"/>
 
-    <Label layoutX="20" layoutY="220" text="Output Data"/>
+    <Label layoutX="20" layoutY="220" text="Журнал"/>
     <TextField fx:id="outputData" layoutX="240" layoutY="220"/>
 
     <Label layoutX="20" layoutY="270" text="WOS"/>
     <TextField fx:id="WOS" layoutX="240" layoutY="270"/>
 
-    <Label layoutX="20" layoutY="320" text="SCOPULUS"/>
+    <Label layoutX="20" layoutY="320" text="SCOPUS"/>
     <TextField fx:id="SCOPULUS" layoutX="240" layoutY="320"/>
 
     <Label layoutX="20" layoutY="370" text="DOI"/>
     <TextField fx:id="DOI" layoutX="240" layoutY="370"/>
 
-    <Label layoutX="20" layoutY="420" text="Link on file"/>
+    <Label layoutX="20" layoutY="420" text="Ссылка на файл"/>
     <TextField fx:id="fileLink" layoutX="240" layoutY="420"/>
 
-    <Button layoutX="240" layoutY="480" text="Add publication" onAction="#createPublication"/>
+    <Button layoutX="240" layoutY="480" text="Добавить" onAction="#createPublication"/>
 
     <stylesheets>
         <URL value="@/css/publicationCreator.css" />

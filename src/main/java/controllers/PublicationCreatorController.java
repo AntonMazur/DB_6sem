@@ -30,8 +30,8 @@ public class PublicationCreatorController implements Resultable{
     @FXML
     private void createPublication(ActionEvent event){
         if (!isInteger(year.getText())){
-            CustomAlertController.setAlertParams("'Year' must be integer!");
-            openWindow("customAlert.fxml", "/css/customAlertDark.css", "Error", false);
+            CustomAlertController.setAlertParams("'Год' должно быть целочисленным");
+            openWindow("customAlert.fxml", "/css/customAlertDark.css", "Ошибка", false);
 
             return;
         }

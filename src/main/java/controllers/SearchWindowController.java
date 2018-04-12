@@ -66,30 +66,30 @@ public class SearchWindowController implements Resultable{
                     }
                 }
             } catch (NumberFormatException ex){
-                errorsBuffer.append("'Year' field format mismatch to specified in brackets sample, so it will not impact on result\n");
+                errorsBuffer.append("Значение поля 'Год' не соответствует формату, поэтому оно не будет учтено в результатах поиска\n");
             }
             filteringBooks = BookSearchUtil.getBooksByYearBounds(filteringBooks, lowBound, upBound);
         }
-        Map<BookParam, List<String>> bookParams = new HashMap<>();
+        Map<BookParam, List<List<String>>> bookParams = new HashMap<>();
 
         currentFieldText = authors.getText();
         if (!currentFieldText.equals("")){
-            bookParams.put(BookParam.AUTHORS, Arrays.asList(currentFieldText.split("\\|")));
+            bookParams.put(BookParam.AUTHORS, splitByORandAND(currentFieldText));
         }
 
         currentFieldText = name.getText();
         if (!currentFieldText.equals("")){
-            bookParams.put(BookParam.NAME, Arrays.asList(currentFieldText.split("\\|")));
+            bookParams.put(BookParam.NAME, splitByORandAND(currentFieldText));
         }
 
         currentFieldText = edition.getText();
         if (!currentFieldText.equals("")){
-            bookParams.put(BookParam.EDITION, Arrays.asList(currentFieldText.split("\\|")));
+            bookParams.put(BookParam.EDITION, splitByORandAND(currentFieldText));
         }
 
         currentFieldText = outputData.getText();
         if (!currentFieldText.equals("")){
-            bookParams.put(BookParam.OUTPUT_DATA, Arrays.asList(currentFieldText.split("\\|")));
+            bookParams.put(BookParam.OUTPUT_DATA, splitByORandAND(currentFieldText));
         }
 
         filteringBooks = BookSearchUtil.getBooksByParams(filteringBooks, bookParams);
@@ -128,5 +128,9 @@ public class SearchWindowController implements Resultable{
 
     private void close(){
         ((Stage) year.getScene().getWindow()).close();
+    }
+
+    private List<List<String>> splitByORandAND(String token) {
+        return Arrays.stream(token.split("\\|")).map(splitedByOR -> Arrays.asList(splitedByOR.split("&"))).collect(Collectors.toList());
     }
 }

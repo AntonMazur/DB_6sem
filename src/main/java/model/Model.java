@@ -1,5 +1,6 @@
 package model;
 
+import entities.Author;
 import mainWin.MainWindow;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -8,13 +9,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import entities.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class Model {
-    private static String pathToDBTable = "src/main/resources/businesslogicdata/allPublications.xlsx";
+    private static String pathToDBTable = "src/main/resources/businesslogicdata/allPublications_edited.xlsx";
     private static XSSFWorkbook dbTable;
     private static XSSFSheet myExcelSheet;
     private static String publicationsSheetName = "Публикации";
@@ -22,6 +28,8 @@ public class Model {
     private static SessionFactory sessionFactory;
     private static Session currentSession;
     private static Transaction currentTransation;
+    private static Set<Author> allAuthors = new HashSet<>();
+    private static Set<Book> allBooks = new HashSet<>();
 
     public static void setSessionFactory(SessionFactory sessionFactory){
         Model.sessionFactory = sessionFactory;
@@ -99,6 +107,35 @@ public class Model {
         int yearCell = ((Double) row.getCell(0).getNumericCellValue()).intValue();
         if (yearCell != 0){
             actualYear = yearCell;
+        }
+        Book book = new Book(
+                actualYear,
+                getCell(row, 1),
+                getCell(row, 2),
+                getCell(row, 3),
+                getCell(row, 4),
+                getCell(row, 9),
+                getCell(row, 8),
+                getCell(row, 7),
+                getCell(row, 10));
+        boolean isAuthorExist;
+        String[] authors = book.getAuthors().split(", ");
+        for (String strAuthor : authors) {
+            isAuthorExist = false;
+            for (Author author : allAuthors) {
+                if (author.getName().equals(strAuthor)) {
+                    book.addAuthor(author);
+                    author.addBook(book);
+                    isAuthorExist = true;
+                    break;
+                }
+            }
+            if (!isAuthorExist) {
+                Author author = new Author(strAuthor);
+                allAuthors.add(author);
+                book.addAuthor(author);
+                author.addBook(book);
+            }
         }
         return new Book(
                 actualYear,

@@ -12,29 +12,29 @@
             fx:controller="controllers.SearchWindowController"
             prefHeight="500.0" prefWidth="620.0">
 
-    <Label layoutX="20" layoutY="20" text="Year ('_-_') "/>
+    <Label layoutX="20" layoutY="20" text="Год ('_-_') "/>
     <TextField fx:id="year" layoutX="240" layoutY="20"/>
 
-    <Label layoutX="20" layoutY="70" text="Authors '(_|_|..)'"/>
+    <Label layoutX="20" layoutY="70" text="Авторы '(_|_|..)'"/>
     <TextField fx:id="authors" layoutX="240" layoutY="70"/>
 
-    <Label layoutX="20" layoutY="120" text="Name '(_|_|..)'"/>
+    <Label layoutX="20" layoutY="120" text="Название '(_|_|..)'"/>
     <TextField fx:id="name" layoutX="240" layoutY="120"/>
 
-    <Label layoutX="20" layoutY="170" text="Edition '(_|_|..)'"/>
+    <Label layoutX="20" layoutY="170" text="Издание '(_|_|..)'"/>
     <TextField fx:id="edition" layoutX="240" layoutY="170"/>
 
-    <Label layoutX="20" layoutY="220" text="Output Data '(_|_|..)'"/>
+    <Label layoutX="20" layoutY="220" text="Журнал '(_|_|..)'"/>
     <TextField fx:id="outputData" layoutX="240" layoutY="220"/>
 
-    <CheckBox fx:id="isContainsFile" layoutX="40" layoutY="360" text="Contains file"/>
-    <CheckBox fx:id="isRussian" layoutX="40" layoutY="280" text="Russian" selected="true"/>
-    <CheckBox fx:id="isEnglish" layoutX="40" layoutY="320" text="English" selected="true"/>
+    <CheckBox fx:id="isContainsFile" layoutX="40" layoutY="360" text="Есть файл"/>
+    <CheckBox fx:id="isRussian" layoutX="40" layoutY="280" text="Русский" selected="true"/>
+    <CheckBox fx:id="isEnglish" layoutX="40" layoutY="320" text="Английский" selected="true"/>
 
-    <CheckBox fx:id="isContainsDOI" layoutX="240" layoutY="280" text="Contains DOI" selected="false"/>
-    <CheckBox fx:id="isContainsWOS" layoutX="240" layoutY="320" text="Contains SCOPULUS" selected="false"/>
-    <CheckBox fx:id="isContainsSCOPULUS" layoutX="240" layoutY="360" text="Contains WOS" selected="false"/>
+    <CheckBox fx:id="isContainsDOI" layoutX="240" layoutY="280" text="DOI" selected="false"/>
+    <CheckBox fx:id="isContainsWOS" layoutX="240" layoutY="320" text="SCOPUS" selected="false"/>
+    <CheckBox fx:id="isContainsSCOPULUS" layoutX="240" layoutY="360" text="WOS" selected="false"/>
 
-    <Button text="Find" layoutX="230" layoutY="420" prefHeight="45.0" prefWidth="160" onAction="#findBooksWithFilters"/>
+    <Button text="Найти" layoutX="230" layoutY="420" prefHeight="45.0" prefWidth="160" onAction="#findBooksWithFilters"/>
 
 </AnchorPane>
