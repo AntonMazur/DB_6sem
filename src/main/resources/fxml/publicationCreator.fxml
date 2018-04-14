@@ -35,8 +35,8 @@
     <Label layoutX="20" layoutY="370" text="DOI"/>
     <TextField fx:id="DOI" layoutX="240" layoutY="370"/>
 
-    <Label layoutX="20" layoutY="420" text="Ссылка на файл"/>
-    <TextField fx:id="fileLink" layoutX="240" layoutY="420"/>
+    <Button layoutX="240" layoutY="420" text="Добавить файл" onAction="#addFile"/>
+
 
     <Button layoutX="240" layoutY="480" text="Добавить" onAction="#createPublication"/>
 

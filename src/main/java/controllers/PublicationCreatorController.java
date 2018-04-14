@@ -7,9 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -23,7 +25,7 @@ public class PublicationCreatorController implements Resultable{
     @FXML private TextField WOS;
     @FXML private TextField SCOPULUS;
     @FXML private TextField DOI;
-    @FXML private TextField fileLink;
+    private String fileLink = "";
 
     private Book book = null;
 
@@ -37,7 +39,6 @@ public class PublicationCreatorController implements Resultable{
         }
 
         book = new Book();
-        book.setNextId();
 
         if (!isEmpty(year)){
             book.setYear(Integer.parseInt(year.getText()));
@@ -50,7 +51,7 @@ public class PublicationCreatorController implements Resultable{
                 .setDOI(DOI.getText())
                 .setWOS(WOS.getText())
                 .setSCOPULUS(SCOPULUS.getText())
-                .setFileLink(isEmpty(fileLink) ? "" : fileLink.getText())
+                .setFileLink(fileLink)
                 .updateBookDescription();
         close();
     }
@@ -69,6 +70,16 @@ public class PublicationCreatorController implements Resultable{
         }
         Pattern intDetection = Pattern.compile("^\\s*\\d*\\s*$");
         return intDetection.matcher(token).matches();
+    }
+
+    @FXML
+    private void addFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF-files","*.pdf"));
+        File file = fileChooser.showOpenDialog(year.getScene().getWindow());
+        if (file != null) {
+            fileLink = file.getPath();
+        }
     }
 
     @Override

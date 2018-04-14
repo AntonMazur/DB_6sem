@@ -99,7 +99,7 @@ public class Book {
     public void setNextId(){
         id = ++idGenerator;
     }
-    
+
     public void updateBook(int year, String authors, String name, String edition, String outputData, String DOI, String SCOPULUS, String WOS, String fileLink){
         this.year = year;
         this.authors = authors;

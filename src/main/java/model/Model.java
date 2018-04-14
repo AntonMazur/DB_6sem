@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,8 +53,33 @@ public class Model {
     }
 
     public static void insertBook(Book book){
+        boolean isAuthorExist;
+        String[] authors = book.getAuthors().split(", ");
+        for (String strAuthor : authors) {
+            isAuthorExist = false;
+            for (Author author : allAuthors) {
+                if (author.getName().equals(strAuthor)) {
+                    book.addAuthor(author);
+                    author.addBook(book);
+                    isAuthorExist = true;
+                    break;
+                }
+            }
+            if (!isAuthorExist) {
+                Author author = new Author(strAuthor);
+                allAuthors.add(author);
+                book.addAuthor(author);
+                author.addBook(book);
+            }
+        }
         openSessionStartTransation();
         currentSession.persist(book);
+        commitTransationCloseSession();
+    }
+
+    private static void insertAuthor(Author author) {
+        openSessionStartTransation();
+        currentSession.persist(author);
         commitTransationCloseSession();
     }
 
@@ -61,6 +87,14 @@ public class Model {
         openSessionStartTransation();
         for (Book book: books) {
             currentSession.save(book);
+        }
+        commitTransationCloseSession();
+    }
+
+    public static void insertBatchOfAuthors(Collection<Author> authors){
+        openSessionStartTransation();
+        for (Author author: authors) {
+            currentSession.save(author);
         }
         commitTransationCloseSession();
     }
@@ -137,16 +171,7 @@ public class Model {
                 author.addBook(book);
             }
         }
-        return new Book(
-                actualYear,
-                getCell(row, 1),
-                getCell(row, 2),
-                getCell(row, 3),
-                getCell(row, 4),
-                getCell(row, 9),
-                getCell(row, 8),
-                getCell(row, 7),
-                getCell(row, 10));
+        return book;
 
     }
 

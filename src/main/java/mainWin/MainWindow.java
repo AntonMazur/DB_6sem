@@ -50,21 +50,7 @@ public class MainWindow extends Application {
         MainWindowController.setMainStage(stage);
         Configuration config = new Configuration().configure();
         sessionFactory = config.buildSessionFactory();
-        Session session = sessionFactory.openSession();
         Model.setSessionFactory(sessionFactory);
-        Transaction t = session.beginTransaction();
-        Book book = new Book();
-        book.setAuthors("slkfj");
-        book.setEdition("lskfj");
-        book.setYear(56);
-        book.setName("slfkj");
-            session.persist(book);
-        t.commit();
-        List<Book> list = new ArrayList<Book>();
-        list = session
-                .createCriteria(Book.class).list();
-        list.forEach(System.out::print);
-        session.close();
         String fxmlFile = "/fxml/mainWindow.fxml";
         FXMLLoader loader = new FXMLLoader();
         Parent root = loader.load(getClass().getResourceAsStream(fxmlFile));

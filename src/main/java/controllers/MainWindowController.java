@@ -210,13 +210,14 @@ public class MainWindowController {
                 PublicationMenuController.setBook(book);
                 PublicationAction pubAction =(PublicationAction)((PublicationMenuController) openWindow("publicationMenu.fxml", book.getName(), Modality.WINDOW_MODAL, true)).getResult();
                 if (pubAction == PublicationAction.UPDATE) {
-                    Model.updateBook(book);
                     updateBookTable();
+                    Model.updateBook(book);
                 }
                 if (pubAction == PublicationAction.DELETE) {
-                    Model.deleteBook(book);
                     tableData.remove(book);
                     updateBookTable();
+                    Model.deleteBook(book);
+
                 }
             }
             else {
